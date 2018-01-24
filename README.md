@@ -6,7 +6,7 @@ This Symfony bundle tries to make request assertion a little bit easier.
 
 This bundle is still a work in progress.
 
-PHP7+ only.
+PHP7.1+ only.
 
 ## Usage
 
