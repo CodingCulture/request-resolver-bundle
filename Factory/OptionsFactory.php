@@ -33,7 +33,7 @@ class OptionsFactory
             $options = array_replace_recursive($options, $request->files->all());
         }
 
-        $options = array_replace_recursive($options, $request->attributes->get('_route_params'));
+        $options = array_replace_recursive($options, $request->attributes->get('_route_params', []));
 
         return $options;
     }
@@ -63,6 +63,6 @@ class OptionsFactory
 
         $options = array_replace_recursive($options, $body);
 
-        return array_replace_recursive($options, $request->attributes->get('_route_params'));
+        return array_replace_recursive($options, $request->attributes->get('_route_params', []));
     }
 }

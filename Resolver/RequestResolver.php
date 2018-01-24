@@ -7,6 +7,7 @@ use CodingCulture\RequestResolverBundle\Factory\OptionsFactory;
 use CodingCulture\RequestResolverBundle\Helper\TypeJuggleHelper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -17,7 +18,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class RequestResolver
 {
     const CONTENT_TYPE_JSON = 'application/json';
-    const CONTENT_TYPE_FORM_DATA = '';
+    const CONTENT_TYPE_FORM_DATA = 'multipart/form-data';
     const CONTENT_TYPE_ALLOW_ALL = 'all';
 
     /**
@@ -25,6 +26,11 @@ class RequestResolver
      */
     private $request;
 
+    /**
+     * RequestResolver constructor.
+     *
+     * @param RequestStack $requestStack
+     */
     public function __construct(RequestStack $requestStack)
     {
         $this->request = $requestStack->getCurrentRequest();
@@ -37,7 +43,7 @@ class RequestResolver
      *
      * @return ResolvableRequestInterface
      *
-     * @throws \InvalidArgumentException
+     * @throws \InvalidArgumentException|HttpException
      */
     public function resolve(ResolvableRequestInterface $resolvable): ResolvableRequestInterface
     {
@@ -61,6 +67,8 @@ class RequestResolver
     }
 
     /**
+     * Validates headers according to request object content type
+     *
      * @param ResolvableRequestInterface $resolvable
      * @param Request $request
      *
@@ -75,6 +83,7 @@ class RequestResolver
 
         if ($isJSONRequestRequired && !$isRequestJSON) {
             throw new HttpException(
+                Response::HTTP_BAD_REQUEST,
                 sprintf(
                     'The request made must be of Content-Type: application/json, but is %s',
                     $request->headers->get('Content-Type')
@@ -84,6 +93,8 @@ class RequestResolver
     }
 
     /**
+     * Creates the options to be resolved according to the request object content type
+     *
      * @param Request $request
      *
      * @return array

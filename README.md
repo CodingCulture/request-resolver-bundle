@@ -61,5 +61,4 @@ If a user sent a bad request, an InvalidArgumentException (or an extension of it
 
 ## Todo
 
-- [ ] Test RequestResolver.php
-- [ ] Symfony Flex support
+- [ ] Write better docs
