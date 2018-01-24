@@ -6,6 +6,8 @@ use CodingCulture\RequestResolverBundle\Contract\ResolvableRequestInterface;
 use CodingCulture\RequestResolverBundle\Factory\OptionsFactory;
 use CodingCulture\RequestResolverBundle\Helper\TypeJuggleHelper;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -19,22 +21,33 @@ class RequestResolver
     const CONTENT_TYPE_ALLOW_ALL = 'all';
 
     /**
+     * @var Request
+     */
+    private $request;
+
+    public function __construct(RequestStack $requestStack)
+    {
+        $this->request = $requestStack->getCurrentRequest();
+    }
+
+    /**
      * Resolves a ResolvableRequestInterface
      *
      * @param ResolvableRequestInterface $resolvable
-     * @param Request                    $request
      *
      * @return ResolvableRequestInterface
+     *
+     * @throws \InvalidArgumentException
      */
-    public function resolve(ResolvableRequestInterface $resolvable, Request $request): ResolvableRequestInterface
+    public function resolve(ResolvableRequestInterface $resolvable): ResolvableRequestInterface
     {
         $resolver = $resolvable->defineOptions(new OptionsResolver());
 
         $resolver->setDefault('_format', 'json');
 
-        $this->validateHeaders($resolvable, $request);
+        $this->validateHeaders($resolvable, $this->request);
 
-        $options = $this->createOptionsForRequest($request);
+        $options = $this->createOptionsForRequest($this->request);
 
         array_walk($options, function (&$value) {
             $value = TypeJuggleHelper::juggle($value);
@@ -61,7 +74,12 @@ class RequestResolver
         $isRequestJSON = $request->headers->get('Content-Type') === self::CONTENT_TYPE_JSON;
 
         if ($isJSONRequestRequired && !$isRequestJSON) {
-            //todo throw new \Exception('');
+            throw new HttpException(
+                sprintf(
+                    'The request made must be of Content-Type: application/json, but is %s',
+                    $request->headers->get('Content-Type')
+                )
+            );
         }
     }
 
