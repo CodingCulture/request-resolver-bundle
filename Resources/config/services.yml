@@ -1,5 +1,6 @@
 services:
   codingculture.requestresolver.resolver:
     class: CodingCulture\RequestResolverBundle\Resolver\RequestResolver
+    public: true
     arguments:
       - '@request_stack'
