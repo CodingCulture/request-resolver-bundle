@@ -1,0 +1,6 @@
+version: "3"
+services:
+  phpspec:
+    image: circlical/phpspec-php7
+    volumes:
+      - .:/app
