@@ -13,6 +13,7 @@ matrix:
     - php: 7.2
 
 before_script:
+  - composer install
   - docker pull circlical/phpspec-php7
 
 script:
