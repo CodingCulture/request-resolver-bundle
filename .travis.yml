@@ -16,4 +16,4 @@ before_script:
   - docker pull circlical/phpspec-php7
 
 script:
-  - docker run --rm circlical/phpspec-php7 run
+  - docker run --rm -v $(pwd):/app circlical/phpspec-php7 run
