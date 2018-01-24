@@ -1,6 +1,6 @@
 # Request Resolver Bundle
 
-[![Build Status](https://travis-ci.org/CodingCulture/request-resolver-bundle.svg?branch=master)](https://travis-ci.org/CodingCulture/request-resolver-bundle)
+[![Build Status](https://travis-ci.org/CodingCulture/request-resolver-bundle.svg?branch=master)](https://travis-ci.org/CodingCulture/request-resolver-bundle) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/77b920001474495283ba5fa974fc3835)](https://www.codacy.com/app/nielsvermaut/request-resolver-bundle?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=CodingCulture/request-resolver-bundle&amp;utm_campaign=Badge_Grade)
 
 This Symfony bundle tries to make request assertion a little bit easier.
 
