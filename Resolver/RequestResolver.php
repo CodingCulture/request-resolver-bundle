@@ -101,7 +101,7 @@ class RequestResolver
      */
     private function createOptionsForRequest(Request $request): array
     {
-        $isJSONRequestRequired = $request->getContent() === self::CONTENT_TYPE_JSON;
+        $isJSONRequestRequired = $request->headers->get('Content-Type') === self::CONTENT_TYPE_JSON;
 
         if ($isJSONRequestRequired) {
             $options = OptionsFactory::createFromJSON($request);
