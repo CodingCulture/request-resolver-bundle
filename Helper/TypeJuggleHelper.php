@@ -17,6 +17,10 @@ class TypeJuggleHelper
      */
     public static function juggle($value)
     {
+        if (is_array($value)) {
+            return $value;
+        }
+        
         if (in_array($value, ['true', 'false', true, false], true)) {
             if ($value === 'false') {
                 return false;
