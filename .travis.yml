@@ -14,7 +14,7 @@ matrix:
 
 before_script:
   - composer install
-  - docker pull circlical/phpspec-php7
+  - ./vendor/bin/phpspec
 
 script:
-  - docker run --rm -v $(pwd):/app circlical/phpspec-php7 run
+  - php ./vendor/bin/phpspec run
