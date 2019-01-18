@@ -1,6 +1,10 @@
 services:
-  codingculture.requestresolver.resolver:
+  CodingCulture\RequestResolverBundle\Resolver\RequestResolver:
     class: CodingCulture\RequestResolverBundle\Resolver\RequestResolver
     public: true
     arguments:
       - '@request_stack'
+      
+    codingculture.requestresolver.resolver:
+      alias: CodingCulture\RequestResolverBundle\Resolver\RequestResolver
+      public: true
