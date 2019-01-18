@@ -27,6 +27,6 @@
   "extra" : {
   },
   "require-dev": {
-    "phpspec/phpspec": "^4.3"
+    "phpspec/phpspec": "^5.1"
   }
 }

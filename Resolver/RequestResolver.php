@@ -43,7 +43,7 @@ class RequestResolver
      *
      * @return ResolvableRequestInterface
      *
-     * @throws \InvalidArgumentException|HttpException
+     * @throws \InvalidArgumentException|HttpException|\Exception
      */
     public function resolve(ResolvableRequestInterface $resolvable): ResolvableRequestInterface
     {
@@ -62,6 +62,8 @@ class RequestResolver
         $options = $resolver->resolve($options);
 
         $resolvable->setOptions($options);
+
+        $resolvable->validate();
 
         return $resolvable;
     }
