@@ -3,6 +3,7 @@
 namespace CodingCulture\RequestResolverBundle\Resolver;
 
 use CodingCulture\RequestResolverBundle\Contract\ResolvableRequestInterface;
+use CodingCulture\RequestResolverBundle\Contract\ValidatableRequestInterface;
 use CodingCulture\RequestResolverBundle\Factory\OptionsFactory;
 use CodingCulture\RequestResolverBundle\Helper\TypeJuggleHelper;
 use Symfony\Component\HttpFoundation\Request;
@@ -63,7 +64,9 @@ class RequestResolver
 
         $resolvable->setOptions($options);
 
-        $resolvable->validate();
+        if ($resolvable instanceof ValidatableRequestInterface) {
+            $resolvable->validate();
+        }
 
         return $resolvable;
     }
