@@ -5,6 +5,6 @@ services:
     arguments:
       - '@request_stack'
       
-    codingculture.requestresolver.resolver:
-      alias: CodingCulture\RequestResolverBundle\Resolver\RequestResolver
-      public: true
+  codingculture.requestresolver.resolver:
+    alias: CodingCulture\RequestResolverBundle\Resolver\RequestResolver
+    public: true
