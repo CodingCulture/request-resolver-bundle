@@ -2,6 +2,7 @@
 
 namespace CodingCulture\RequestResolverBundle\DependencyInjection;
 
+use Exception;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -17,8 +18,12 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('codingculture_requestresolver');
+        try {
+            $treeBuilder = new TreeBuilder();
+            $rootNode = $treeBuilder->root('codingculture_requestresolver');
+        } catch (Exception $exception) {
+            $treeBuilder = new TreeBuilder('codingculture_requestresolver');
+        }
 
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for
