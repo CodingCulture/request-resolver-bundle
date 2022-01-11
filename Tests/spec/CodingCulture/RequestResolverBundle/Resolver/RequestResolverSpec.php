@@ -3,9 +3,11 @@
 namespace spec\CodingCulture\RequestResolverBundle\Resolver;
 
 use CodingCulture\RequestResolverBundle\Request\GetResourceByIdRequest;
+use CodingCulture\RequestResolverBundle\Request\GetResourceWithHeadersRequest;
 use CodingCulture\RequestResolverBundle\Resolver\RequestResolver;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Symfony\Component\HttpFoundation\HeaderBag;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -39,6 +41,45 @@ class RequestResolverSpec extends ObjectBehavior
         $request = $this->resolve(new GetResourceByIdRequest());
 
         $request->getId()->shouldReturn("60");
+    }
+
+    function it_should_resolve_a_request_with_headers(RequestStack $requestStack)
+    {
+        $request = new Request(
+            ['id' => 5],
+            [],
+            ['_route_params' => ['id' => 60]],
+            [],
+            []
+        );
+        $request->headers->set('x-required-header', 'header-value');
+
+        $requestStack->getCurrentRequest()->willReturn($request);
+
+        $this->beConstructedWith($requestStack);
+
+        /** @var GetResourceWithHeadersRequest $request */
+        $request = $this->resolve(new GetResourceWithHeadersRequest());
+
+        $request->getId()->shouldReturn("60");
+        $request->getRequiredHeader()->shouldReturn(["header-value"]);
+    }
+
+    function it_should_throw_an_exception_when_required_header_is_not_present(RequestStack $requestStack)
+    {
+        $request = new Request(
+            ['id' => 5],
+            [],
+            ['_route_params' => ['id' => 60]],
+            [],
+            []
+        );
+
+        $requestStack->getCurrentRequest()->willReturn($request);
+
+        $this->beConstructedWith($requestStack);
+
+        $this->shouldThrow('Symfony\Component\OptionsResolver\Exception\MissingOptionsException')->duringResolve(new GetResourceWithHeadersRequest());
     }
 
     function it_should_throw_an_exception(RequestStack $requestStack)

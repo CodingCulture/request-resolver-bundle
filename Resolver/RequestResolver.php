@@ -2,15 +2,16 @@
 
 namespace CodingCulture\RequestResolverBundle\Resolver;
 
-use CodingCulture\RequestResolverBundle\Contract\ResolvableRequestInterface;
-use CodingCulture\RequestResolverBundle\Contract\ValidatableRequestInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use CodingCulture\RequestResolverBundle\Factory\OptionsFactory;
 use CodingCulture\RequestResolverBundle\Helper\TypeJuggleHelper;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use CodingCulture\RequestResolverBundle\Contract\HeaderableRequestInterface;
+use CodingCulture\RequestResolverBundle\Contract\ResolvableRequestInterface;
+use CodingCulture\RequestResolverBundle\Contract\ValidatableRequestInterface;
 
 /**
  * Class RequestResolver
@@ -63,6 +64,16 @@ class RequestResolver
         $options = $resolver->resolve($options);
 
         $resolvable->setOptions($options);
+
+        if ($resolvable instanceof HeaderableRequestInterface) {
+            $requestHeaders = $this->request->headers->all();
+            
+            $headerResolver = $resolvable->defineHeaderOptions(new OptionsResolver());
+            $headerResolver->setDefined(array_keys($requestHeaders));
+            $resolvedHeaders = $headerResolver->resolve($requestHeaders);
+
+            $resolvable->setHeaders($resolvedHeaders);
+        }
 
         if ($resolvable instanceof ValidatableRequestInterface) {
             $resolvable->validate();
