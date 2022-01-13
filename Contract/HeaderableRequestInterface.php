@@ -5,10 +5,10 @@ namespace CodingCulture\RequestResolverBundle\Contract;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Interface ResolvableRequestInterface
+ * Interface HeaderableRequestInterface
  * @package App\CodingCulture\RequestResolverBundle\Contract
  */
-interface ResolvableRequestInterface
+interface HeaderableRequestInterface
 {
     /**
      * Should configure the passed OptionsResolver to match the expectations in structure and type of the
@@ -18,21 +18,14 @@ interface ResolvableRequestInterface
      *
      * @return OptionsResolver
      */
-    public function defineOptions(OptionsResolver $resolver): OptionsResolver;
+    public function defineHeaderOptions(OptionsResolver $resolver): OptionsResolver;
 
     /**
-     * Should store the validated request options for use.
+     * Should store the validated request headers for use.
      *
-     * @param array $options
+     * @param array $headers
      *
      * @return void
      */
-    public function setOptions(array $options): void;
-
-    /**
-     * Should define the Content-Type header the request should have.
-     *
-     * @return string
-     */
-    public function getContentType(): string;
+    public function setHeaders(array $headers): void;
 }
