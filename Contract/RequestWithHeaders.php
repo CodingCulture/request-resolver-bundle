@@ -5,7 +5,7 @@ namespace CodingCulture\RequestResolverBundle\Contract;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Interface HeaderableRequestInterface
+ * Interface RequestWithHeadersInterface
  * @package App\CodingCulture\RequestResolverBundle\Contract
  */
 interface RequestWithHeadersInterface
