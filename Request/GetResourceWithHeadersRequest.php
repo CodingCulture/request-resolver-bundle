@@ -2,7 +2,7 @@
 
 namespace CodingCulture\RequestResolverBundle\Request;
 
-use CodingCulture\RequestResolverBundle\Contract\HeaderableRequestInterface;
+use CodingCulture\RequestResolverBundle\Contract\RequestWithHeadersInterface;
 use CodingCulture\RequestResolverBundle\Contract\ResolvableRequestInterface;
 use CodingCulture\RequestResolverBundle\Resolver\RequestResolver;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -25,7 +25,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  *
  * ResolvableRequestInterface::getContentType() should return which Content-Type is expected of the request.
  */
-class GetResourceWithHeadersRequest implements ResolvableRequestInterface, HeaderableRequestInterface
+class GetResourceWithHeadersRequest implements ResolvableRequestInterface, RequestWithHeadersInterface
 {
     /**
      * @var array
