@@ -18,9 +18,13 @@ class TypeJuggleHelper
     public static function juggle($value)
     {
         if (is_array($value)) {
+            foreach ($value as &$subValue) {
+                $subValue = self::juggle($subValue);
+            }
+
             return $value;
         }
-        
+
         if (in_array($value, ['true', 'false', true, false], true)) {
             if ($value === 'false') {
                 return false;
