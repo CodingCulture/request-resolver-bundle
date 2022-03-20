@@ -13,11 +13,11 @@
     "MIT"
   ],
   "require" : {
-    "symfony/options-resolver": "^4.0 || ^5.0",
-    "symfony/http-foundation": "^4.0 || ^5.0",
-    "symfony/http-kernel": "^4.0 || ^5.0",
-    "symfony/config": "^4.0 || ^5.0",
-    "symfony/dependency-injection": "^4.0 || ^5.0"
+    "symfony/options-resolver": "^4.0 || ^5.0 || ^6.0",
+    "symfony/http-foundation": "^4.0 || ^5.0 || ^6.0",
+    "symfony/http-kernel": "^4.0 || ^5.1.5 || ^6.0",
+    "symfony/config": "^4.0 || ^5.0 || ^6.0",
+    "symfony/dependency-injection": "^4.0 || ^5.0 || ^6.0"
   },
   "autoload" : {
     "psr-4" : {
@@ -27,6 +27,6 @@
   "extra" : {
   },
   "require-dev": {
-    "phpspec/phpspec": "^5.1"
+    "phpspec/phpspec": "^7.1"
   }
 }
