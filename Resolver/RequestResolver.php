@@ -2,6 +2,7 @@
 
 namespace CodingCulture\RequestResolverBundle\Resolver;
 
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -9,7 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use CodingCulture\RequestResolverBundle\Factory\OptionsFactory;
 use CodingCulture\RequestResolverBundle\Helper\TypeJuggleHelper;
-use CodingCulture\RequestResolverBundle\Contract\HeaderableRequestInterface;
+use CodingCulture\RequestResolverBundle\Contract\RequestWithHeadersInterface;
 use CodingCulture\RequestResolverBundle\Contract\ResolvableRequestInterface;
 use CodingCulture\RequestResolverBundle\Contract\ValidatableRequestInterface;
 
@@ -65,7 +66,7 @@ class RequestResolver
 
         $resolvable->setOptions($options);
 
-        if ($resolvable instanceof HeaderableRequestInterface) {
+        if ($resolvable instanceof RequestWithHeadersInterface) {
             $requestHeaders = $this->request->headers->all();
             
             $headerResolver = $resolvable->defineHeaderOptions(new OptionsResolver());
