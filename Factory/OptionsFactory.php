@@ -2,6 +2,7 @@
 
 namespace CodingCulture\RequestResolverBundle\Factory;
 
+use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -48,6 +49,10 @@ class OptionsFactory
         $options = [];
 
         $body = json_decode($request->getContent(), true);
+
+        if (json_last_error() !== 0) {
+            throw new InvalidArgumentException('Body was not of type JSON');
+        }
 
         if (is_null($body)) {
             throw new HttpException(Response::HTTP_BAD_REQUEST, 'You cannot send an empty body');

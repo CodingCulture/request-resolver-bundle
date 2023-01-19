@@ -39,4 +39,19 @@ class OptionsFactorySpec extends ObjectBehavior
 
         $this::createFromJSON($request)->shouldReturn(['id' => 15, 'other_param' => 5]);
     }
+
+    function it_can_deal_with_invalid_json()
+    {
+        $request = new Request(
+            ['id' => 50],
+            [],
+            ['_route_params' => ['id' => 15]],
+            [],
+            [],
+            [],
+            'not a json body'
+        );
+
+        $this->shouldThrow('\InvalidArgumentException')->during('createFromJSON',[$request]);
+    }
 }
