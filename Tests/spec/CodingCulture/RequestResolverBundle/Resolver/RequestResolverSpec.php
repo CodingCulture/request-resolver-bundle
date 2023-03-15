@@ -2,6 +2,7 @@
 
 namespace spec\CodingCulture\RequestResolverBundle\Resolver;
 
+use CodingCulture\RequestResolverBundle\Exception\RequestResolverException;
 use CodingCulture\RequestResolverBundle\Request\GetResourceByIdRequest;
 use CodingCulture\RequestResolverBundle\Request\GetResourceWithHeadersRequest;
 use CodingCulture\RequestResolverBundle\Resolver\RequestResolver;
@@ -90,7 +91,7 @@ class RequestResolverSpec extends ObjectBehavior
 
         /** @var GetResourceByIdRequest $request */
         $request = $this
-            ->shouldThrow('InvalidArgumentException')
+            ->shouldThrow(RequestResolverException::class)
             ->duringResolve(new GetResourceByIdRequest())
         ;
     }
@@ -102,12 +103,14 @@ class RequestResolverSpec extends ObjectBehavior
         GetResourceByIdRequest $jsonRequest,
         OptionsResolver $optionsResolver
     ) {
-        $bag->get('Content-Type', RequestResolver::CONTENT_TYPE_FORM_DATA);
+        $bag->get('Content-Type')->willReturn(RequestResolver::CONTENT_TYPE_FORM_DATA);
         $request->headers = $bag;
 
         $requestStack->getCurrentRequest()->willReturn($request);
 
         $this->beConstructedWith($requestStack);
+
+        $optionsResolver->setDefault(Argument::any(), Argument::any())->willReturn($optionsResolver);
 
         $jsonRequest->defineOptions(Argument::type(OptionsResolver::class))->willReturn($optionsResolver);
 
