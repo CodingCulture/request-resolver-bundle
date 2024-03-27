@@ -2,6 +2,8 @@
 
 namespace CodingCulture\RequestResolverBundle\Resolver;
 
+use CodingCulture\RequestResolverBundle\Exception\RequestResolverException;
+use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -61,7 +63,11 @@ class RequestResolver
             $value = TypeJuggleHelper::juggle($value);
         });
 
-        $options = $resolver->resolve($options);
+        try {
+            $options = $resolver->resolve($options);
+        } catch (Exception $exception) {
+            throw new RequestResolverException($exception);
+        }
 
         $resolvable->setOptions($options);
 
@@ -76,7 +82,11 @@ class RequestResolver
         }
 
         if ($resolvable instanceof ValidatableRequestInterface) {
-            $resolvable->validate();
+            try {
+                $resolvable->validate();
+            } catch (Exception $exception) {
+                throw new RequestResolverException($exception);
+            }
         }
 
         return $resolvable;
