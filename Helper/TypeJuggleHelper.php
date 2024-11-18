@@ -34,8 +34,9 @@ class TypeJuggleHelper
         }
 
         $hasDot = strpos((string) $value, '.') !== false;
+        $looksLikePhoneNumber = is_numeric($value) && str_starts_with($value, '0') && strlen($value) > 1;
 
-        if (!in_array(false, [is_numeric($value), !$hasDot], true)) {
+        if (!in_array(false, [is_numeric($value), !$hasDot, !$looksLikePhoneNumber], true)) {
             return (int) $value;
         }
 
